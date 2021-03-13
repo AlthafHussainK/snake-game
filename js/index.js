@@ -5,6 +5,7 @@ let squares = []
 let currentSnake = [2,1,0]
 let direction = 1
 const width = 10
+let appleIndex = 0
 
 function createGrid() {
 
@@ -25,7 +26,10 @@ function createGrid() {
 
 createGrid()
 
+
 currentSnake.forEach(index => squares[index].classList.add('snake'))
+
+let timerId = setInterval(move, 1000)
 
 function move() {
 
@@ -53,8 +57,16 @@ function move() {
 
 move()
 
-let timerId = setInterval(move, 1000)
+function generateApples() {
+  do {
+    appleIndex = Math.floor(Math.random()*width*width)
+    console.log(appleIndex)
+  } while (squares[appleIndex].classList.contains('snake')) 
 
+  squares[appleIndex].classList.add('apple')
+}
+
+generateApples()
 // 39 - right arrow
 // 38 - up arrow
 // 37 - left arrow
