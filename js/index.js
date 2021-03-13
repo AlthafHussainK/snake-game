@@ -1,11 +1,12 @@
 const grid = document.querySelector('.grid')
 const startButton = document.querySelector('#start')
-const score = document.querySelector('#score')
+const scoreDisplay = document.querySelector('#score')
 let squares = []
 let currentSnake = [2,1,0]
 let direction = 1
 const width = 10
 let appleIndex = 0
+let score = 0
 
 function createGrid() {
 
@@ -29,7 +30,7 @@ createGrid()
 
 currentSnake.forEach(index => squares[index].classList.add('snake'))
 
-let timerId = setInterval(move, 1000)
+
 
 function move() {
 
@@ -38,7 +39,7 @@ function move() {
     (currentSnake[0] % width === width-1 && direction === 1) ||
     (currentSnake[0] % width === 0 && direction === -1) ||
     (currentSnake[0] - width < 0 && direction === -width) ||
-    squares[currentSnake[0] = direction].classList.contains('snake')
+    squares[currentSnake[0] + direction].classList.contains('snake')
   )
   return clearInterval(timerId)
 
@@ -51,11 +52,32 @@ function move() {
   //add square in direction we are heading
   currentSnake.unshift(currentSnake[0] + direction)
   
+  
+  //snake head getting the apple
+  if(squares[currentSnake[0]].classList.contains('apple')) {
+    //remove the class of apple
+    squares[currentSnake[0]].classList.remove('apple')
+    //grow the snake by 1
+    squares[tail].classList.add('snake')
+    //grow our snake array
+    currentSnake.push(tail)
+    //generate a new apple
+    generateApples()
+    //add one to the score
+    score++
+    //display score
+    scoreDisplay.textContent = score
+    //speed up our snake
+
+  }
+
+
   //add styling so we can see it
   squares[currentSnake[0]].classList.add('snake')
 }
-
 move()
+
+let timerId = setInterval(move, 1000)
 
 function generateApples() {
   do {
